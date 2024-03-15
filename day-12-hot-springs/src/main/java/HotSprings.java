@@ -3,6 +3,7 @@ import java.net.URISyntaxException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -88,21 +89,25 @@ public class HotSprings {
                 permutation2.set(index, '#');
 
                 final List<Integer> damagedGroups2 = getDamagedGroups(permutation2.subList(index, permutation2.size()));
+                final long count = permutation2.stream().filter(place -> place.equals('#')).count();
+                final int sum = damagedGroups.stream().mapToInt(group -> group).sum();
                 if (damagedGroups2.size() <= damagedGroups.size()) {
                     if (damagedGroups2.size() > 1) {
                         if (damagedGroups2.subList(1, damagedGroups2.size())
                                           .equals(damagedGroups.subList(damagedGroups.size() - damagedGroups2.size() + 1, damagedGroups.size()))) {
                             if (damagedGroups2.get(0) <= damagedGroups.get(damagedGroups.size() - damagedGroups2.size())) {
                                 if (damagedGroups2.get(0) + index >= damagedGroups.get(damagedGroups.size() - damagedGroups2.size())) {
-                                    newPermutation.add(permutation2);
-                                    System.out.println("GRP" + damagedGroups2 + " " + permutation2);
+                                    if(sum >= count) {
+                                        newPermutation.add(permutation2);
+//                                        System.out.println("GRP" + damagedGroups2 + " " + permutation2);
+                                    }
                                 }
                             }
                         }
                     } else if (damagedGroups2.size() == 1) {
                         if (damagedGroups2.get(0) <= damagedGroups.get(damagedGroups.size() - damagedGroups2.size())) {
                             newPermutation.add(permutation2);
-                            System.out.println("GRP2" + damagedGroups2 + " " + permutation2);
+//                            System.out.println("GRP2" + damagedGroups2 + " " + permutation2);
                         }
                     }
 
